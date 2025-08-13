@@ -1,8 +1,10 @@
 import {Product} from '../models/product.model';
 import {ALL_PRODUCTS} from '../data/all-products';
-import {signalStore, withState} from '@ngrx/signals';
+import {signalStore, withComputed, withState} from '@ngrx/signals';
+import {computed} from '@angular/core';
+import {buildCartVm, buildProductListVm} from './shop-vm.builder';
 
-type ShopState = {
+export type ShopState = {
   products: Product[];
   term: string;
   cartQuantities: Record<string, number>;
@@ -20,5 +22,9 @@ const initialState: ShopState = {
 
 export const ShopStore = signalStore(
   {providedIn: 'root'},
-  withState(initialState)
+  withState(initialState),
+  withComputed(({products, term, cartQuantities, isCartVisible, taxRate}) => ({
+    productListVm: computed(() => buildProductListVm(products(), cartQuantities(), term())),
+    cartVm: computed(() => buildCartVm(products(), cartQuantities(), taxRate(), isCartVisible()))
+  }))
 )
