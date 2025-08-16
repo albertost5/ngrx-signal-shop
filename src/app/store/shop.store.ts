@@ -1,9 +1,11 @@
-import {computed} from '@angular/core';
-import {patchState, signalStore, withComputed, withMethods, withState} from '@ngrx/signals';
+import {computed, effect, Signal} from '@angular/core';
+import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
 import {Product} from '../models/product.model';
 import {buildCartVm, buildProductListVm} from './shop-vm.builder';
 import {ALL_PRODUCTS} from '../data/all-products';
 import * as updaters from './shop.updaters';
+
+export type PersistedShop = Pick<ShopState, 'cartQuantities'>
 
 export type ShopState = {
   products: Product[];
@@ -47,5 +49,21 @@ export const ShopStore = signalStore(
       patchState(store, updaters.decrementQuantity(productId)),
     checkout: () =>
       patchState(store, updaters.checkout())
-  }))
+  })),
+  withHooks({
+    onInit(store) {
+      const persistedShop: Signal<PersistedShop> = computed(() => ({
+        cartQuantities: store.cartQuantities()
+      }));
+
+      if (localStorage.getItem('shop')) {
+        patchState(store, JSON.parse(localStorage.getItem('shop')!))
+      }
+
+      effect(() => {
+        const persistedValue = persistedShop();
+        localStorage.setItem('shop', JSON.stringify(persistedValue))
+      });
+    }
+  })
 );
