@@ -12,4 +12,5 @@ export interface CartVm {
   tax: number;
   total: number;
   isVisible: boolean;
+  isActive: boolean;
 }

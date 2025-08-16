@@ -1,5 +1,5 @@
 <div class="image">
-  <img [src]="image()" />
+  <img [src]="image()"/>
 </div>
 
 <div class="details">
@@ -9,7 +9,10 @@
   </div>
 </div>
 
-<app-quantity [amount]="item().quantity"/>
+<app-quantity [amount]="item().quantity"
+              (increment)="store.incrementQuantity(item().id)"
+              (decrement)="store.decrementQuantity(item().id)"
+/>
 
 <div class="total">
   {{ item().total | currency }}

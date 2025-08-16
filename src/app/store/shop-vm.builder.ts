@@ -31,6 +31,7 @@ export function buildCartVm(products: Product[], quantities: Record<string, numb
     tax,
     total,
     isVisible: cartVisible,
+    isActive: items.length > 0
   }
 
   function buildCartItems(): CartItemVm[] {

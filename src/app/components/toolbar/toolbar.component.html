@@ -4,11 +4,14 @@
 <span>The Signals Shop</span>
 <input type="search"
        placeholder="search"
-       [ngModel]="store.term()"/>
+       [ngModel]="store.term()"
+       (ngModelChange)="store.setTerm($event)"
+/>
 <button mat-icon-button class="cart-button"
         [matBadge]="vm.itemsCount"
-        [matBadgeHidden]="!vm.isVisible"
-        [disabled]="!vm.isVisible"
+        [matBadgeHidden]="!vm.isActive"
+        [disabled]="!vm.isActive"
+        (click)="store.viewCart()"
 >
   <mat-icon class="cart">shopping_cart</mat-icon>
 </button>
