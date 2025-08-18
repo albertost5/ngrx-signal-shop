@@ -1,7 +1,7 @@
 import {Component, computed, inject, input} from '@angular/core';
 import {RankingComponent} from "../ranking/ranking.component";
 import {SharedModule} from '../../../../shared.module';
-import {ProductItemVm} from '../view-model/product-item.vm';
+import {ProductItemVm} from '../../view-model/product-item.vm';
 import {ShopStore} from '../../../../store/shop.store';
 
 @Component({
