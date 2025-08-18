@@ -1,5 +1,5 @@
 import {Component, input, output} from '@angular/core';
-import {SharedModule} from '../../shared.module';
+import {SharedModule} from '../../../../shared.module';
 
 @Component({
   selector: 'app-quantity',

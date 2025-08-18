@@ -1,8 +1,8 @@
 import {Component, inject} from '@angular/core';
 import {SharedModule} from './shared.module';
 import {ToolbarComponent} from "./components/toolbar/toolbar.component";
-import {ItemsListComponent} from "./components/items-list/items-list.component";
-import {CartComponent} from "./components/cart/cart.component";
+import {ItemsListComponent} from "./feature/product-list/components/items-list.component";
+import {CartComponent} from "./feature/cart/cart.component";
 import {ShopStore} from './store/shop.store';
 
 @Component({
