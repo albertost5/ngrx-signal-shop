@@ -1,18 +1,18 @@
 import {computed, effect, Signal} from '@angular/core';
 import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
 import {Product} from '../models/product.model';
-import {buildCartVm, buildProductListVm} from './shop-vm.builder';
 import {ALL_PRODUCTS} from '../data/all-products';
 import * as updaters from './shop.updaters';
+import {buildShopVm} from './shop-vm.builder';
 
 export type PersistedShop = Pick<ShopState, 'cartQuantities'>
+export type CartQuantities = Record<string, number>;
 
 export type ShopState = {
   products: Product[];
   term: string;
-  cartQuantities: Record<string, number>;
+  cartQuantities: CartQuantities;
   isCartVisible: boolean;
-  taxRate: number;
 }
 
 const initialState: ShopState = {
@@ -20,15 +20,13 @@ const initialState: ShopState = {
   term: '',
   cartQuantities: {},
   isCartVisible: false,
-  taxRate: 0.08
 }
 
 export const ShopStore = signalStore(
   {providedIn: 'root'},
   withState(initialState),
-  withComputed(({products, term, cartQuantities, isCartVisible, taxRate}) => ({
-    productListVm: computed(() => buildProductListVm(products(), cartQuantities(), term())),
-    cartVm: computed(() => buildCartVm(products(), cartQuantities(), taxRate(), isCartVisible()))
+  withComputed(({cartQuantities, isCartVisible}) => ({
+    vm: computed(() => buildShopVm(cartQuantities(), isCartVisible()))
   })),
   withMethods((store) => ({
     setTerm(term: string) {

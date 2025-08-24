@@ -12,6 +12,5 @@ import {ShopStore} from './store/shop.store';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  store = inject(ShopStore)
-  readonly isCartShowing = this.store.isCartVisible;
+  store = inject(ShopStore);
 }
